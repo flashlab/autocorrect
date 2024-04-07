@@ -54,6 +54,12 @@ function application() {
 <p>在本教程中，我们将使用Rust的npm包构建工具<code>wasm-pack</code>来构建一个npm包。这个包只包含WebAssembly和JavaScript代码，以便包的用户无需安装Rust就能使用。他们甚至不需要知道这里包含WebAssembly！</p></div>
 `,
   },
+  richtext: {
+    title: 'RichText',
+    raw: `<p>研究人员利用<em>Miwi<sup>YY/YY</sup></em>、<em>Miwi<sup>YK/YK</sup></em>小鼠研究发现，<strong>缺失piRNA结合能力的MIWI蛋白被滞留在IMC中</strong>，无法转运到CB，突变小鼠精子生成都阻滞在圆形精子阶段。</p>
+    <p>总之，该结果表明<strong>piRNA装载能力的丧失不仅妨碍了MIWI<sup>®</sup>在细胞中正确的亚细胞定位</strong>，而且破环其蛋白稳定性和piRNA的产生。</p>
+`,
+  },
   scss: {
     title: 'CSS / SCSS',
     raw: `

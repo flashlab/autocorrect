@@ -32,7 +32,7 @@ const Layout = () => {
   const NavbarItem = (props: any) => {
     const { href, children } = props;
 
-    if (href.startsWith('/autocorrect/')) {
+    if (href.startsWith('/c/')) {
       return (
         <NavLink
           className={({ isActive, isPending }) => {
@@ -57,7 +57,7 @@ const Layout = () => {
       <div className="navbar">
         <div className="flex items-center justify-between px-4">
           <div className="navbar-brand">
-            <Link to="/autocorrect/" className="flex items-center space-x-2">
+            <Link to="/c/" className="flex items-center space-x-2">
               <img
                 src="https://user-images.githubusercontent.com/5518/194691346-13856309-266b-4bf6-b505-5a8b15d0c02e.png"
                 className="h-8"
@@ -69,9 +69,18 @@ const Layout = () => {
             </Link>
           </div>
           <nav className="flex items-center ml-5 space-x-4">
-            <NavbarItem href="/autocorrect/">Intro</NavbarItem>
-            <NavbarItem href="/autocorrect/usage">Usage</NavbarItem>
-            <NavbarItem href="/autocorrect/editor">Playground</NavbarItem>
+            <NavbarItem href="/c/">Intro</NavbarItem>
+            <NavbarItem href="/c/usage">Usage</NavbarItem>
+            <NavbarItem href="/c/editor">Playground</NavbarItem>
+            <NavbarItem
+              href="pangu.html"
+              className="p-0"
+            >
+              <img
+                src="icon_16.png"
+                className="w-5 h-5 hover:opacity-60"
+              />
+            </NavbarItem>
             <NavbarItem
               href="https://github.com/huacnlee/autocorrect"
               target="_blank"
@@ -96,7 +105,7 @@ const Layout = () => {
 
 const router = createBrowserRouter([
   {
-    path: '/autocorrect',
+    path: '/c',
 
     element: <Layout />,
     children: [
@@ -106,11 +115,11 @@ const router = createBrowserRouter([
         element: <Welcome />,
       },
       {
-        path: '/autocorrect/usage',
+        path: '/c/usage',
         element: <UsagePage />,
       },
       {
-        path: '/autocorrect/editor',
+        path: '/c/editor',
         element: <AppEditor />,
       },
     ],

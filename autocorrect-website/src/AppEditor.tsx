@@ -65,6 +65,8 @@ export const AppEditor = () => {
   const [monaco, setMonaco] = useState<any>();
   const [editor, setEditor] = useState<monaco.editor.IStandaloneCodeEditor>();
   const [message, showMessage] = useState('');
+  const [richText, setRichText] = useState('');
+  const [richEditor, setRichEditor] = useState(false);
   const [fileType, setFileType] = useState('markdown');
 
   // @ts-ignore
@@ -116,19 +118,19 @@ export const AppEditor = () => {
   };
 
   const reloadExample = () => {
-    loadExampleByFileType(fileType);
+    loadExampleByFileType(fileType, richEditor);
   };
 
-  const loadExampleByFileType = (fileType: string) => {
-    if (!editor) {
-      return;
-    }
-
+  const loadExampleByFileType = (fileType: string, richEditor: boolean) => {
     // @ts-ignore
     const example = examples[fileType];
-    // @ts-ignore
-    monaco.editor.setModelLanguage(editor.getModel(), fileType);
-    editor.setValue(example.raw);
+    if (!richEditor && editor) {
+      // @ts-ignore
+      monaco.editor.setModelLanguage(editor.getModel(), fileType);
+      editor.setValue(example.raw);
+    } else if (richEditor) {
+      setRichText(example.raw);
+    }
   };
 
   const FileTypeOptions = () => {
@@ -149,24 +151,26 @@ export const AppEditor = () => {
 
   const onChangeFileType = (e: any) => {
     const fileType = e.target?.value;
+    const richEditor = (fileType === 'richtext');
     setFileType(fileType);
-    loadExampleByFileType(fileType);
+    setRichEditor(richEditor);
+    loadExampleByFileType(fileType, richEditor);
   };
 
   const formatText = (e: any) => {
     e.preventDefault();
-    if (!editor) {
-      return;
-    }
-
     const start = new Date();
-    const result = autocorrect.formatFor(editor.getValue(), fileType);
+    if (!richEditor && editor) {
+      const result = autocorrect.formatFor(editor.getValue(), fileType);
+      //console.log(result);
+      editor.setValue(result.out);
+    } else if (richEditor) {
+      const editoRich = document.getElementById('editoRich');
+      editoRich.innerHTML = autocorrect.formatFor(editoRich.innerHTML, 'html').out;
+    }
     // @ts-ignore
     const duration = new Date() - start;
     showMessage(`Speed time: ${duration}ms`);
-    console.log(result);
-
-    editor.setValue(result.out);
     return false;
   };
 
@@ -207,13 +211,16 @@ export const AppEditor = () => {
           </div>
         </div>
       </div>
-      <div className="editor-wraper absolute bottom-4 left-4 right-4 top-[110px]">
+      <div className={"editor-wraper absolute bottom-4 left-4 right-4 top-[110px] " + (richEditor ? 'hidden' : 'block')}>
         <Editor
           defaultLanguage="markdown"
           theme={editorOptions.theme}
           options={editorOptions}
           onMount={onEditorMounted}
         />
+      </div>
+      <div className={"editor-wraper absolute bottom-4 left-4 right-4 top-[110px] overflow-y-auto " + (richEditor ? 'block' : 'hidden')}>
+        <div className="w-full h-full p-4" id="editoRich" contenteditable="true" dangerouslySetInnerHTML={{__html: richText}}></div>
       </div>
     </div>
   );

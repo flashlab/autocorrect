@@ -7,6 +7,6 @@ export default defineConfig({
   build: {
     target: 'esnext',
   },
-  base: '/autocorrect/',
+  base: '/c/',
   plugins: [react(), wasm()],
 });
